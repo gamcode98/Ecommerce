@@ -24,14 +24,12 @@ class Auth {
     if (data && data.password) {
       data.password = await this.#encrypt(data.password);
     }
-
     data.provider = {
       local: true,
     };
 
     const userServ = new User();
     const result = await userServ.create(data);
-
     if (!result.created) {
       return {
         success: false,
@@ -75,6 +73,7 @@ class Auth {
     };
 
     const token = this.#createToken(userData);
+
     return {
       success: true,
       user: userData,

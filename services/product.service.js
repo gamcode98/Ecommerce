@@ -1,6 +1,6 @@
-const validationError = require("../helpers/validationError");
 const ProductModel = require("../models/products.model");
 const CategoryModel = require("../models/category.model");
+const dbError = require("../helpers/dbError");
 
 class Product {
   async getAll() {
@@ -13,18 +13,15 @@ class Product {
   async create(data) {
     try {
       const product = await ProductModel.create(data);
-      const category = await CategoryModel.findById(data.category);
-      category.products = category.products.concat(product._id);
-      await category.save();
+      // const category = await CategoryModel.findById(data.category);
+      // category.products = category.products.concat(product._id);
+      // await category.save();
       return {
         created: true,
         product,
       };
     } catch (error) {
-      return {
-        created: false,
-        errors: validationError(error.errors),
-      };
+      return dbError(error);
     }
   }
 

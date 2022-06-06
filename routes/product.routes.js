@@ -1,9 +1,10 @@
 const express = require("express");
+const authValidation = require("../middlewares/auth");
 const ProductService = require("./../services/product.service");
 
 function product(app) {
   const router = express.Router();
-  app.use("/api/product", router);
+  app.use("/api/products", router);
   const productServ = new ProductService();
 
   router.get("/", async (req, res) => {
@@ -11,7 +12,7 @@ function product(app) {
     return res.json(result);
   });
 
-  router.post("/", async (req, res) => {
+  router.post("/", authValidation(2), async (req, res) => {
     const result = await productServ.create(req.body);
     return res.json(result);
   });

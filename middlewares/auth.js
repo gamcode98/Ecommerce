@@ -12,6 +12,8 @@ function authValidation(role) {
 function validateToken(req, res, next) {
   const token = req.cookies.token;
 
+  console.log("token => ", token);
+
   if (!token) {
     return res.status(403).json({
       success: false,
